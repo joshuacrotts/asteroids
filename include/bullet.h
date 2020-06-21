@@ -4,8 +4,25 @@
 #include "commons.h"
 #include "../lib/stds/include/draw.h"
 
-extern Entity* add_bullet(float, float, uint16_t);
-extern void bullet_update(Entity*);
-extern void bullet_draw(Entity*);
+
+/*
+ *
+ */
+extern entity_t*
+add_bullet(float, float, uint16_t);
+
+
+/*
+ *
+ */
+extern void 
+bullet_update(entity_t*);
+
+
+/*
+ *
+ */
+extern void 
+bullet_draw(entity_t*);
 
 #endif

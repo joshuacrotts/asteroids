@@ -1,21 +1,23 @@
 #include "../include/asteroid.h"
 
-static void check_bounds(Entity*);
+static void check_bounds(entity_t*);
 
-Entity* add_asteroid(float x, float y) {
-    Entity* asteroid;
 
-    asteroid = malloc(sizeof(Entity));
-    memset(asteroid, 0, sizeof(Entity));
+entity_t* 
+add_asteroid(float x, float y) {
+    entity_t *asteroid;
+
+    asteroid = malloc(sizeof(entity_t));
+    memset(asteroid, 0, sizeof(entity_t));
     asteroid->x = x;
     asteroid->y = y;
-    asteroid->dx = randomFloat(-4, 4);
-    asteroid->dy = randomFloat(-4, 4);
-    asteroid->idFlags |= ID_ASTEROID_MASK;
+    asteroid->dx = random_float(-4, 4);
+    asteroid->dy = random_float(-4, 4);
+    asteroid->id_flags |= ID_ASTEROID_MASK;
     asteroid->health = 2;
 
-    Animation* a;
-    a = add_spritesheet("res/img/rock.png", 16, randomFloat(0.04f, 0.10f), 0, 0);
+    animation_t *a;
+    a = add_spritesheet("res/img/rock.png", 16, random_float(0.04f, 0.10f), 0, 0);
     asteroid->w = a->w;
     asteroid->h = a->h;
 
@@ -24,7 +26,9 @@ Entity* add_asteroid(float x, float y) {
     return asteroid;
 }
 
-void asteroid_update(Entity* a) {
+
+void 
+asteroid_update(entity_t* a) {
     if (a->animation != NULL) {
         animation_update(a);
     }
@@ -34,13 +38,26 @@ void asteroid_update(Entity* a) {
     a->y += a->dy;
 }
 
-void asteroid_draw(Entity* a) {
+
+void 
+asteroid_draw(entity_t* a) {
     if (a->animation != NULL) {
         animation_draw(a);
     }
 }
 
-static void check_bounds(Entity* a) {
+
+void 
+swap_asteroid_animation(entity_t* a) {
+    a->animation = add_spritesheet("res/img/rock_small.png", 16, random_float(0.05f, 0.10f), 0, 0);
+}
+
+
+/*
+ *
+ */
+static void 
+check_bounds(entity_t* a) {
     if (a->x < 0) {
         a->x = SCREEN_WIDTH;
     }
@@ -56,8 +73,4 @@ static void check_bounds(Entity* a) {
     if (a->y > SCREEN_HEIGHT) {
         a->y = 0;
     }
-}
-
-void swap_asteroid_animation(Entity* a) {
-    a->animation = add_spritesheet("res/img/rock_small.png", 16, randomFloat(0.05f, 0.10f), 0, 0);
 }

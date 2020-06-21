@@ -5,8 +5,13 @@
 #include "../lib/stds/include/draw.h"
 #include "../lib/stds/include/text.h"
 
-extern App app;
+extern app_t app;
 
-extern void draw_HUD(void);
+
+/*
+ *
+ */
+extern void 
+draw_HUD(void);
 
 #endif

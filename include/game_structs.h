@@ -3,9 +3,9 @@
 
 #include "commons.h"
 
-typedef struct Stage Stage;
-typedef struct Emitter Emitter;
-typedef struct Debris Debris;
+typedef struct Stage stage_t;
+typedef struct Emitter emitter_t;
+typedef struct Debris debris_t;
 
 struct Debris {
   float x;
@@ -15,25 +15,25 @@ struct Debris {
   int life;
   SDL_Rect rect;
   SDL_Texture* texture;
-  Debris* next;
+  debris_t* next;
 };
 
 struct Emitter {
-  Entity particleHead, *particleTail;
+  entity_t particle_head, *particle_tail;
   int32_t x;
   int32_t y;
   uint32_t maxParticles;
-  uint32_t idFlags;
+  uint32_t id_flags;
   uint32_t flags;
 
-  Emitter* next;
+  emitter_t* next;
 };
 
 struct Stage {
-  Animation animationHead, *animationTail;
-  Entity explosionHead, *explosionTail;
-  Entity entityHead, *entityTail;
-  Debris debrisHead, *debrisTail;
+  animation_t animation_head, *animation_tail;
+  entity_t explosion_head, *explosion_tail;
+  entity_t entity_head, *entity_tail;
+  debris_t debris_head, *debris_tail;
 };
 
 #endif

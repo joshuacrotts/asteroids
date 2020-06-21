@@ -1,25 +1,29 @@
 #include "../include/bullet.h"
 
-Entity* add_bullet(float x, float y, uint16_t angle) {
-    Entity* b;
 
-    b = malloc(sizeof(Entity));
-    memset(b, 0, sizeof(Entity));
+entity_t* 
+add_bullet(float x, float y, uint16_t angle) {
+    entity_t *b;
+
+    b = malloc(sizeof(entity_t));
+    memset(b, 0, sizeof(entity_t));
 
     b->x = x;
     b->y = y;
 
     b->angle = angle;
-    b->idFlags |= ID_BULLET_MASK;
-    b->texture[0] = loadTexture("res/img/blue_bullet.png");
+    b->id_flags |= ID_BULLET_MASK;
+    b->texture[0] = load_texture("res/img/blue_bullet.png");
     SDL_QueryTexture(b->texture[0], NULL, NULL, &b->w, &b->h);
 
     return b;
 }
 
-void bullet_update(Entity* b) {
-    b->dx = (float) cos(toRadians(b->angle)) * 6;
-    b->dy = (float) sin(toRadians(b->angle)) * 6;
+
+void 
+bullet_update(entity_t *b) {
+    b->dx = (float) cos(to_radians(b->angle)) * 6;
+    b->dy = (float) sin(to_radians(b->angle)) * 6;
 
     b->x += b->dx;
     b->y += b->dy;
@@ -30,6 +34,8 @@ void bullet_update(Entity* b) {
         }
 }
 
-void bullet_draw(Entity* b) {
-    blitRotated(b->texture[0], b->x, b->y, b->angle + 90);
+
+void 
+bullet_draw(entity_t* b) {
+    blit_texture_rotated(b->texture[0], b->x, b->y, b->angle + 90);
 }

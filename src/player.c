@@ -1,29 +1,33 @@
 #include "../include/player.h"
 #include "../include/bullet.h"
 
+static bool forwardMovement = false;
+
 static void key_input_listener(void);
 static void check_bounds(void);
 
-static bool forwardMovement = false;
 
-void init_player(void) {
+void 
+init_player(void) {
     if (player != NULL) {
         free(player);
     }
     
-    player = malloc(sizeof(Entity));
-    memset(player, 0, sizeof(Entity));
+    player = malloc(sizeof(entity_t));
+    memset(player, 0, sizeof(entity_t));
 
     player->x = SCREEN_WIDTH / 2;
     player->y = SCREEN_HEIGHT / 2;
 
-    player->texture[0] = loadTexture("res/img/ship.png");
-    player->texture[1] = loadTexture("res/img/ship_thrust.png");
+    player->texture[0] = load_texture("res/img/ship.png");
+    player->texture[1] = load_texture("res/img/ship_thrust.png");
 
     SDL_QueryTexture(player->texture[0], NULL, NULL, &player->w, &player->h);
 }
 
-void player_update(void) {
+
+void 
+player_update(void) {
     if (player->flags & DEATH_MASK) {
         return;
     }
@@ -32,8 +36,8 @@ void player_update(void) {
     check_bounds();
 
     if (forwardMovement) {
-        player->dx += (float) cos(toRadians(player->angle)) * 0.2f;
-        player->dy += (float) sin(toRadians(player->angle)) * 0.2f;
+        player->dx += (float) cos(to_radians(player->angle)) * 0.2f;
+        player->dy += (float) sin(to_radians(player->angle)) * 0.2f;
     } else {
         player->dx *= 0.99f;
         player->dy *= 0.99f;
@@ -52,19 +56,26 @@ void player_update(void) {
     player->life--;
 }
 
-void player_draw(void) {
+
+void 
+player_draw(void) {
     if (player->flags & DEATH_MASK) {
         return;
     }
 
     if (forwardMovement) {
-        blitRotated(player->texture[1], player->x, player->y, player->angle);
+        blit_texture_rotated(player->texture[1], player->x, player->y, player->angle);
     } else {
-        blitRotated(player->texture[0], player->x, player->y, player->angle);
+        blit_texture_rotated(player->texture[0], player->x, player->y, player->angle);
     }
 }
 
-static void key_input_listener(void) {
+
+/*
+ *
+ */
+static void 
+key_input_listener(void) {
     if (player == NULL) {
         return;
     }
@@ -80,10 +91,10 @@ static void key_input_listener(void) {
     if (app.keyboard[SDL_SCANCODE_SPACE] && player->life < 0) {
         player->life = FPS;
 
-        Entity* b;
+        entity_t *b;
         b = add_bullet(player->x, player->y, player->angle);
-        stage.entityTail->next = b;
-        stage.entityTail = b;
+        stage.entity_tail->next = b;
+        stage.entity_tail = b;
     }
 
     if (app.keyboard[SDL_SCANCODE_W]) {
@@ -93,7 +104,12 @@ static void key_input_listener(void) {
     }
 }
 
-static void check_bounds(void) {
+
+/*
+ *
+ */
+static void 
+check_bounds(void) {
     if (player->x < 0) {
         player->x = SCREEN_WIDTH;
     }

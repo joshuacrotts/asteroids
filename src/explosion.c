@@ -1,15 +1,16 @@
 #include "../include/explosion.h"
 
-Entity* add_explosion(enum ExplosionType type, float x, float y) {
-    Entity* e;
+entity_t* 
+add_explosion(enum ExplosionType type, float x, float y) {
+    entity_t *e;
 
-    e = malloc(sizeof(Entity));
-    memset(e, 0, sizeof(Entity));
+    e = malloc(sizeof(entity_t));
+    memset(e, 0, sizeof(entity_t));
 
     e->x = x;
     e->y = y;
     
-    Animation* a;
+    animation_t *a;
 
     switch (type) {
         case SMALL: a = add_spritesheet("res/img/explosions/type_A.png", 20, 0.015f, 0, 0); break;
@@ -23,9 +24,11 @@ Entity* add_explosion(enum ExplosionType type, float x, float y) {
     return e;
 }
 
-void explosion_update(Entity* e) {
+
+void 
+explosion_update(entity_t *e) {
     if (e->animation != NULL) {
-        if (e->animation->currentFrameID == e->animation->numberOfFrames - 1) {
+        if (e->animation->current_frame_id == e->animation->number_of_frames - 1) {
             e->flags |= DEATH_MASK;
             return;
         } else {
@@ -34,13 +37,17 @@ void explosion_update(Entity* e) {
     }
 }
 
-void explosion_draw(Entity* e) {
+
+void 
+explosion_draw(entity_t *e) {
     if (e->animation != NULL) {
         animation_draw(e);
     }
 }
 
-void explosion_die(Entity* e) {
+
+void 
+explosion_die(entity_t *e) {
     if (e->flags & DEATH_MASK) {
         free(e);
         return;
